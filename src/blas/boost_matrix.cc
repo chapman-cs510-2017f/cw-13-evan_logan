@@ -1,7 +1,7 @@
 #include <boost/numeric/ublas/matrix.hpp>
 #include <boost/numeric/ublas/io.hpp>
 
-int main(int argc, char **argv) 
+int main(int argc, char **argv)
 {
   // exploit namespaces to shorten code
   using namespace boost::numeric::ublas;
@@ -20,7 +20,7 @@ int main(int argc, char **argv)
       m(r,c) = 3 * r + c;
 
       // complex numbers designating rows and cols
-      n(r,c) = r + c * std::complex<long double>(0,1); 
+      n(r,c) = r + c * std::complex<long double>(0,1);
 
       // elementwise square of n
       o(r,c) = std::pow(n(r,c), 2);
