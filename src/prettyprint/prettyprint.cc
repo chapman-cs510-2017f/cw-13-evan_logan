@@ -23,7 +23,13 @@ int main(int argc, char **argv)
         for (unsigned c = 0; c < cplane.size2(); c++)
         {
             cplane(r,c) = std::complex<long double>(xmin + c*dx, ymin + r*dy);
-            cout << cplane(r,c) << "\t";
+        }
+    }
+    for (unsigned r = 0; r < cplane.size1(); r++)
+    {
+        for (unsigned c = 0; c < cplane.size2(); c++)
+        {
+            cout << xmin + c*dx << " + " << ymin + r*dy << "i" << "    ";
         }
         cout << endl;
     }
