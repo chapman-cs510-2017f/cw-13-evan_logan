@@ -4,6 +4,7 @@
 
 // include the header declarations
 #include "matrix.h"
+#include <iostream>
 
 //*************
 //
@@ -51,7 +52,8 @@ template<typename T> Matrix<T>::Matrix(const Matrix<T>& rhs) {
 // so just use default compiler cleanup of memory 
 template<typename T> Matrix<T>::~Matrix() {}
 
-// 3) Assignment operator
+// 3) Assignment 
+
 //    This performs a "deep copy" of the data in rhs, meaning that
 //    the instances are different, and all memory is copied to new
 //    and distinct memory locations
@@ -151,8 +153,67 @@ Matrix<T> Matrix<T>::operator+(const Matrix<T>& rhs) {
             result(i,j) = this->mat[i][j] + rhs(i,j);
         }
     }
-  
     return result;
 }
+
+// Addition of matrix with scalar
+template<typename T>
+Matrix<T> Matrix<T>::operator+(const T& rhs) {
+    // Create new matrix to store result, initialize to zero
+    Matrix<T> result(rows, cols, (T)0.0);
+
+    // Add each matrix element-by-element
+    for (unsigned int i=0; i<rows; i++) {
+        for (unsigned int j=0; j<cols; j++) {
+            result(i,j) = (*this)(i,j) + rhs;
+        }
+    }
+    return result;
+}
+
+
+// Addition of two matrices
+template<typename T>
+Matrix<T> Matrix<T>::operator*(const Matrix<T>& rhs) {
+    // Create new matrix to store result, initialize to zero
+    Matrix<T> result(rows, rhs.cols, (T)0.0);
+
+    if (cols != rhs.rows) {
+        std::cout << "WARNING: Dimensions invalid for matrix multiplication" << std::endl;
+        return result;
+    }
+
+    // Find each matrix element using rows/columns from LHS and RHS
+    for (unsigned int i=0; i < rows; i++) {
+        for (unsigned int j=0; j < rhs.cols; j++) {
+            T element = (T)0.0;
+            // Find inner product of row i from LHS and col j from RHS
+            for (unsigned int k=0; k < cols; k++){
+                element += (*this)(i,k) * rhs(k,j);
+            }
+            result(i,j) = element;
+        }
+    }
+    return result;
+}
+
+
+//*************
+//
+// PRINTING
+//
+//*************
+
+template<typename T>
+void Matrix<T>::print(){
+    for (unsigned int i=0; i < this->rows; i++) {
+        for (unsigned int j=0; j < this->cols; j++) {
+            std::cout << (*this)(i,j) << "\t";
+        }
+        std::cout << std::endl;
+    }
+}
+
+
 
 #endif // CW13_MATRIX_CPP_
